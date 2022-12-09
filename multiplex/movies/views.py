@@ -8,8 +8,8 @@ from multiplex.movies.services import DcGan
 
 @api_view(['GET'])
 @parser_classes([JSONParser])
-def login(request):
-    DcGan().show_faces()
+def fake_faces(request):
+    DcGan().genarate_fake_faces()
     print(f'Enter Show Faces with {request}')
     return JsonResponse({'Response Test': 'SUCCESS'})
 

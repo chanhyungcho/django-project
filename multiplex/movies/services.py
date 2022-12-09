@@ -20,19 +20,18 @@ from IPython.display import HTML
 from tqdm import tqdm
 import cv2 as cv
 
+
+
 Menus = ['exit',
-         '/mplex/movies/faces',
-         '/mplex/movies/netG',
-         '/mplex/movies/netD',
-         '/mplex/movies/fakeImages']
+         '/mplex/movies/fake-faces', #1.Loading CelebA Dataset
+         '/mplex/movies/face-blow-up', #2.Blow Up Face By DLib
+         '',
+         '', #rest url rule
+         '']
 
 dcgan_menu = {
-    "1" : lambda t: t.show_faces(),
-    "2" : lambda t: t.print_netG(),
-    "3" : lambda t: t.print_netD(),
-    "4" : lambda t: t.print_fakeimages(),
-    "5" : lambda t: t.save_us_unemployment_map(),
-    "6" : lambda t: t.save_seoul_crime_map()
+    "1" : lambda t: t.hook(),
+    "2" : lambda t: t.test(),
 }
 
 '''https://arxiv.org/abs/1511.06434
@@ -76,6 +75,13 @@ class DcGan(object):
         self.ngpu = 1
         self.manualSeed = 999
         self.device = None
+
+    def hook(self):
+        self.show_faces()
+        self.print_netG()
+        self.print_netD()
+        self.genarate_fake_faces()
+
 
 
     def show_faces(self):
@@ -159,8 +165,22 @@ class DcGan(object):
 
         return netD
 
-    def print_fakeimages(self):
-        dataloader = self.show_faces()
+    def genarate_fake_faces(self):
+        dataroot = self.dataroot
+
+        image_size = self.image_size
+        batch_size = self.batch_size
+        workers = self.workers
+        dataset = dset.ImageFolder(root=dataroot,
+                                   transform=transforms.Compose([
+                                       transforms.Resize(image_size),
+                                       transforms.CenterCrop(image_size),
+                                       transforms.ToTensor(),
+                                       transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
+                                   ]))
+        dataloader = torch.utils.data.DataLoader(dataset, batch_size=batch_size,
+                                                 shuffle=True, num_workers=workers,
+                                                 multiprocessing_context='spawn')
         device = self.device
         lr = self.lr
         beta1 = self.beta1
@@ -284,6 +304,11 @@ class DcGan(object):
             plt.show()
 
 
+    def test(self):
+        a = MyDlib()
+        a.hook()
+
+
     # Generator Code
 class Generator(nn.Module):
     def __init__(self, ngpu):
@@ -353,12 +378,59 @@ class Discriminator(nn.Module):
 
 
 
+
+import sys
+import dlib   # conda install -c conda-forge dlib
+import cv2
+import openface
+'''
+mkdir openface
+cd openface
+git clone https://github.com/cmusatyalab/openface.git ~/openface
+cd ./~
+cd openface
+python setup.py install
+'''
+
+class MyDlib(object):
+    def __init__(self):
+        pass
+    def hook(self):
+        predictor_model = r"C:\Users\AIA\djangoProject\multiplex\movies\files\shape_predictor_68_face_landmarks.dat"
+
+        # HOG 이용한 얼굴 감지 클래스 생성 - dlib
+        face_detector = dlib.get_frontal_face_detector()
+
+        face_pose_predictor = dlib.shape_predictor(predictor_model)
+
+        face_aligner = openface.AlignDlib(predictor_model)
+
+        image = cv2.imread(r'C:\Users\AIA\djangoProject\multiplex\movies\data')
+
+        detected_faces = face_detector(image, 1)
+
+        # 찾은 얼굴 개수 만큼 반복한다.
+        for i, face_rect in enumerate(detected_faces):
+            print(
+                "- Face #{} found at Left: {} Top: {} Right: {} Bottom: {}".format(i, face_rect.left(),
+                                                                                   face_rect.top(),
+                                                                                   face_rect.right(),
+                                                                                   face_rect.bottom()))
+
+            # 얼굴 위치에서 랜드마크 찾기
+            pose_landmarks = face_pose_predictor(image, face_rect)
+
+            alignedFace = face_aligner.align(532, image, face_rect,
+                                             landmarkIndices=openface.AlignDlib.OUTER_EYES_AND_NOSE)
+
+            # aligned_face_x.jpg 로 저장
+            cv2.imwrite("./data/aligned_face_{}.jpg".format(i), alignedFace)
+
 def my_menu(ls):
     [print(f"{i}. {j}") for i, j in enumerate(ls)]
     return input('메뉴선택: ')
 
 if __name__ == '__main__':
-
     t = DcGan()
     while True:
         menu = my_menu(Menus)
