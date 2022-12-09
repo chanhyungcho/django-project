@@ -17,3 +17,5 @@ class Movie(models.Model):
     def __str__(self):
         return f'{self.pk}{self.title}{self.director}{self.description}' \
                f'{self.poster_url}{self.running_time}{self.age_rating}'
+
+
