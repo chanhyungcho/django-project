@@ -27,7 +27,7 @@ my_meta_data = {
 class Midwest:
     def __init__(self):
         self.midwest_test = None
-        self.midwest = pd.read_csv('../../Downloads/flask-program-main/src/dam/pd_sample/service/data/midwest.csv')
+        self.midwest = pd.read_csv('./data/ml/midwest.csv')
         self.my_midwest = None
 
     def print_meta(self):

@@ -45,3 +45,4 @@ torch
 dlib
 cv2
 sklearn
+imblearn

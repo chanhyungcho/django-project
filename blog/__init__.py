@@ -1,4 +1,4 @@
-from mpg import MpgService, MPG_MENUS
+'''from mpg import MpgService,MPG_MENUS
 def my_menu(ls):
     for i, j in enumerate(ls):
         print(f"{i}. {j}")
@@ -15,3 +15,4 @@ if __name__ == '__main__':
                 MPG_MENUS[menu](t)
             except KeyError:
                 print(" ### Error ### ")
+'''

@@ -73,7 +73,7 @@ def my_menu(ls):
 class MpgService:
     def __init__(self): #변수로 쓸 것이 중복될 경우 클래스 생성자로 넣어주는게 좋음.
         self.mpg_add_test = None
-        self.mpg = pd.read_csv('../../Downloads/flask-program-main/src/dam/pd_sample/service/data/mpg.csv')
+        self.mpg = pd.read_csv('./data/ml/mpg.csv')
         self.my_mpg = None
 
     def head(self):
@@ -112,7 +112,7 @@ class MpgService:
         #print(self.mpg['test'])
 
     def create_test_frequency(self):
-        self.mpg = pd.read_csv('../../Downloads/flask-program-main/src/dam/pd_sample/service/data/mpg.csv')
+        self.mpg = pd.read_csv('./data/ml/mpg.csv')
         self.mpg['total'] = ( self.mpg['cty'] +  self.mpg['hwy']) / 2
         self.mpg['test'] = np.where( self.mpg['total'] >= 20, 'pass', 'fail')
         self.mpg.to_csv('./titanic/test.csv', header=False, index=False)
@@ -120,7 +120,7 @@ class MpgService:
 
 
     def draw_freq_bar_graph(self):
-        self.mpg = pd.read_csv('../../Downloads/flask-program-main/src/dam/pd_sample/service/data/mpg.csv')
+        self.mpg = pd.read_csv('./data/ml/mpg.csv')
         self.mpg['total'] = (self.mpg['cty'] + self.mpg['hwy']) / 2
         self.mpg['test'] = np.where(self.mpg['total'] >= 20, 'pass', 'fail')
         count_test = self.mpg['test'].value_counts()

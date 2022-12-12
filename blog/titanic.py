@@ -51,7 +51,7 @@ class TitanicModel(object):
 
     def new_model(self, fname) -> object:  #이 클래스 안에서 쓰일 인스턴스
         this = self.dataset
-        this.context = f'{static}/data/dam/titanic/'
+        this.context = './data/titanic/'
         this.fname = fname
         return pd.read_csv(this.context + this.fname) #this context 쌀 pd.찧고 return 떡.
 
@@ -248,7 +248,7 @@ if __name__ == "__main__":  #스테틱 같은 공간 # main이라 self가 아님
     print(this.train.head()) #위에서 부터 몇 개 볼지 tail()은 아래서 몇개볼지
 
 
-    from src.cmm.com.service.common import Common
+    from blog.common import Common
     import warnings
 
     warnings.simplefilter(action='ignore', category=FutureWarning)

@@ -111,7 +111,7 @@ class OklahomaService:
         self.target = None
         self.data = None
         self.my_oklahoma = None
-        self.oklahoma = pd.read_csv('../../../../static/data/dam/ml/comb32.csv')
+        self.oklahoma = pd.read_csv('./data/ml/comb32.csv')
 
     '''
        1.스펙보기
@@ -196,7 +196,7 @@ class OklahomaService:
     '''
 
     def target_id(self):
-        df = pd.read_csv('../../../../static/save/dam/ml/2017DC1.csv')
+        df = pd.read_csv('./data/ml/2017DC1.csv')
         self.data = df.drop(['주택가격중위수'], axis=1)
         self.target = df['주택가격중위수']
         print(self.data.shape)

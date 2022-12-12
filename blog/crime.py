@@ -71,18 +71,18 @@ def MyChoroplethService(vo):
 
 class CrimeService:
     def __init__(self):
-        self.crime = pd.read_csv('../../../../static/data/dam/ml/crime_in_seoul.csv')
+        self.crime = pd.read_csv('./data/crime/crime_in_seoul.csv')
         cols = ['절도 발생', '절도 검거', '폭력 발생', '폭력 검거']
         self.crime[cols] = self.crime[cols].replace(',','',regex=True).astype(int)
-        self.cctv = pd.read_csv('../../../../static/data/dam/ml/cctv_in_seoul.csv')
-        self.pop = pd.read_excel('./titanic/pop_in_seoul.xls', usecols=[1, 3, 6, 9, 13], skiprows=[0,2])
+        self.cctv = pd.read_csv('./data/crime/cctv_in_seoul.csv')
+        self.pop = pd.read_excel('./data/crime/pop_in_seoul.xls', usecols=[1, 3, 6, 9, 13], skiprows=[0,2])
         self.ls = [self.crime,self.cctv,self.pop]
         self.crime_rate_columns = ['살인검거율', '강도검거율', '강간검거율', '절도검거율', '폭력검거율']
         self.crime_columns = ['살인', '강도', '강간', '절도', '폭력']
         self.arrest_columns = ['살인 검거', '강도 검거', '강간 검거', '절도 검거', '폭력 검거']
-        self.us_states = pd.read_json('../../../../static/data/dam/ml/us-states.json')
-        self.us_unemployment = pd.read_csv('../../../../static/data/dam/ml/us_unemployment.csv')
-        self.kr_states = './titanic/kr-state.json'
+        self.us_states = pd.read_json('./data/ml/us-states.json')
+        self.us_unemployment = pd.read_csv('./data/crime/us_unemployment.csv')
+        self.kr_states = './data/crime/kr-state.json'
 
 
 
@@ -143,7 +143,7 @@ class CrimeService:
         crime.loc[crime['관서명'] == '방배서', ['구별']] = '서초구'
         crime.loc[crime['관서명'] == '수서서', ['구별']] = '강남구'
         crime.to_pickle('./save/police_pos.pkl')
-        print(pd.read_pickle('../../../../static/save/dam/ml/police_pos.pkl'))
+        print(pd.read_pickle('./save/crime/police_pos.pkl'))
 
 
     '''
@@ -172,7 +172,7 @@ class CrimeService:
         print(f'고령자비율과 CCTV의 상관계수 {str(cor1)} \n'
               f'외국인비율과 CCTV의 상관계수 {str(cor2)} ')
         cctv_pop.to_pickle('./save/cctv_pop.pkl')
-        print(pd.read_pickle('../../../../static/save/dam/ml/cctv_pop.pkl'))
+        print(pd.read_pickle('.save/crime/cctv_pop.pkl'))
         """
          고령자비율과 CCTV 의 상관계수 [[ 1.         -0.28078554]
                                      [-0.28078554  1.        ]] 
@@ -280,8 +280,8 @@ def set_json_from_df(fname):  # 미국 주가 콜롬비아, 푸에르토-리코(
 
 
 if __name__ == '__main__':
-    set_json_from_df(fname='./titanic/us-states.json')
-    x = pd.read_json("../../../../static/save/dam/ml/us-states.json")
+    set_json_from_df(fname='./data/ml/us-states.json')
+    x = pd.read_json("./data/ml/us-states.json")
     print(x.tail(1))
     # 콜롬비아('id': '11'-> 인덱스 8),
     # 푸에르토리코('id': '72' -> 인덱스 51)는 준주라서 제거해야함
