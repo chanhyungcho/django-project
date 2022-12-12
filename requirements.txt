@@ -44,3 +44,4 @@ wincertstore==0.2
 torch
 dlib
 cv2
+sklearn

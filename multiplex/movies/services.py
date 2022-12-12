@@ -15,7 +15,7 @@ import torchvision.utils as vutils
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
-from IPython.display import HTML
+
 
 from tqdm import tqdm
 import cv2 as cv
@@ -380,7 +380,7 @@ class Discriminator(nn.Module):
 
 
 import sys
-import dlib   # conda install -c conda-forge dlib
+import dlib   # pip install cmakeonda install -c conda-forge dlib
 import cv2
 import openface
 '''
@@ -396,7 +396,8 @@ class MyDlib(object):
     def __init__(self):
         pass
     def hook(self):
-        predictor_model = r"C:\Users\AIA\djangoProject\multiplex\movies\files\shape_predictor_68_face_landmarks.dat"
+        predictor_model = r"C:/Users/AIA/djangoProject/multiplex/movies/files/shape_predictor_68_face_landmarks.dat"
+        print()
 
         # HOG 이용한 얼굴 감지 클래스 생성 - dlib
         face_detector = dlib.get_frontal_face_detector()
@@ -405,7 +406,7 @@ class MyDlib(object):
 
         face_aligner = openface.AlignDlib(predictor_model)
 
-        image = cv2.imread(r'C:\Users\AIA\djangoProject\multiplex\movies\data')
+        image = cv2.imread(r'C:\Users\AIA\djangoProject\multiplex\movies\data\lena.jpg')
 
         detected_faces = face_detector(image, 1)
 
@@ -425,6 +426,7 @@ class MyDlib(object):
 
             # aligned_face_x.jpg 로 저장
             cv2.imwrite("./data/aligned_face_{}.jpg".format(i), alignedFace)
+            cv2.imshow(alignedFace)
 
 def my_menu(ls):
     [print(f"{i}. {j}") for i, j in enumerate(ls)]
