@@ -1,3 +1,5 @@
+from django.db import models
+
 import pandas as pd
 import tensorflow as tf
 from keras import Sequential
