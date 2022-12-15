@@ -1,3 +1,5 @@
+import os
+
 import numpy as np
 import pandas as pd
 import tensorflow as tf
@@ -12,11 +14,15 @@ class IrisService(object):
         global model, graph, target_names
         model = load_model(r'C:\Users\AIA\djangoProject\ml\iris\save\iris_model.h5')
         target_names = datasets.load_iris().target_names
+        # print("iris_model.h5 Path is " + os.path.join(os.path.abspath("api/dlearn/save"), "iris_model.h5"))
+        # model = load_model(os.path.join(os.path.abspath("api/dlearn/save"), "iris_model.h5"))
+        # target_names = datasets.load_iris().target_names
 
     def service_model(self, features): # features = []
-        features = np.reshape(features, (1, 4))
-        Y_prob = model.predict(features, verbose=0)
-        predicted = Y_prob.argmax(axis=-1)
+        features = np.reshape(features, (1, 4)) #행렬구조로 만든것
+        Y_prob = model.predict(features, verbose=0) #예측
+        print(f'type{type(Y_prob)}')
+        predicted = Y_prob.argmax(axis=-1) #
         return predicted[0]  # p-value 가 가장 높은 것
 
 iris_menu = ["Exit", #0

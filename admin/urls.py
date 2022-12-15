@@ -23,6 +23,7 @@ urlpatterns = [
     path("blog/auth/", include('blog.b_users.urls')),
     path("mplex/movie/", include('multiplex.movies.urls')),
     path("blog/sickness/", include('blog.sickness.urls')),
-    path("ml/", include('ml.iris.urls'))
+    path("ml/", include('ml.iris.urls')),
+    path("admin/dlearn/", include('admin.dlearn.urls'))
 
 ]

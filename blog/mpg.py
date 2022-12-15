@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 from matplotlib import pyplot as plt
+import os
 '''Data columns (total 12 columns):
  #   Column        Non-Null Count  Dtype  
 ---  ------        --------------  -----  
@@ -73,7 +74,7 @@ def my_menu(ls):
 class MpgService:
     def __init__(self): #변수로 쓸 것이 중복될 경우 클래스 생성자로 넣어주는게 좋음.
         self.mpg_add_test = None
-        self.mpg = pd.read_csv('./data/mpg.csv')
+        self.mpg = pd.read_csv(os.path.join('./data','mpg.csv'))
         self.my_mpg = None
 
     def head(self):
